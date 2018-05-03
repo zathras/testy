@@ -1,7 +1,7 @@
 # testy
 Unit Test Framework (vastly simpler than JUnit)
 
-!(docs/testy.jpg "Testy")
+![Mr. Testy](docs/testy.jpg "Testy")
 
 If your unit tests aren't passing, it might make you easily annoyed,
 or marked by impatence or ill humor.  But unit tests are extremely
