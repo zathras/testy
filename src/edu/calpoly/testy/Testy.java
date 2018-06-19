@@ -39,6 +39,21 @@ import java.util.Collection;
  *          () ->  testObj.test4()
  *     );
  * </pre>
+ * If you prefer having your tests as static members, that's fine too.
+ * you can also put tests directly in the lambda if you want, viz:
+ * <pre>
+ *     import static edu.calpoly.testy.Assert.assertTrue;
+ *
+ *     <...>
+ *
+ *     Testy.run(
+ *          () ->  MyTest.test1(),
+ *          () ->  MyTest.test2(),
+ *          () ->  MyTest.test3(),
+ *          () ->  MyTest.test4(),
+ *          () ->  assertTrue("this will fail", false)
+ *     );
+ * </pre>
  *
  */
 public final class Testy {
@@ -47,9 +62,11 @@ public final class Testy {
 
     /**
      * Run the given tests, and report which ones fail.
-     * A test fails by throwing an exception.
+     * A test fails by throwing an exception.  TestFailed is a good
+     * choice, but any exception will count as a failure.
      *
      * @return the number of failed tests.
+     * @see TestFailed
      */
     public static int run (TestRunnable... tests) {
 	int failed = 0;
@@ -73,11 +90,14 @@ public final class Testy {
 
     /**
      * Run the given tests, and report which ones fail.
-     * This alternate entry point is given for those who prefer
-     * lists.
-     * A test fails by throwing an exception.
+     * This alternate entry point is given in situations where lists
+     * are preferable.  For example, it might be convenient to collect
+     * lists of tests from different sources into one master list.
+     * A test fails by throwing an exception.  TestFailed is a good
+     * choice, but any exception will count as a failure.
      *
      * @return the number of failed tests.
+     * @see TestFailed
      */
     public static int run (Collection<TestRunnable> tests) {
 	return run(tests.toArray(new TestRunnable[tests.size()]));

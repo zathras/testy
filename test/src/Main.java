@@ -35,6 +35,9 @@ public class Main {
 
 	System.out.println();
 
+	//
+	// Test failing, includin one  with no message (at the end).
+	//
 	failed = Testy.run(
 	    () -> tests.testFail1(),
 	    () -> assertTrue("assertTrue", false),
@@ -142,13 +145,106 @@ public class Main {
 	                       new float[][][][] {{{{1.3f, 1.3f}}}}, 0.01f),
 	    () -> assertEquals("assertEquals float[][][][]", 
 	                          new float[][][][] {{{{1.3f, 1.3f}}}},
+	                          new float[][][][] {{{{1.3f, 1.5f}}}}, 0.01f),
+
+	    () -> assertEquals(new int[][] {{ 1, 2 }}, 
+			       new int[][] {{ 3, 4 }})
+	);
+	System.out.println("Expected 50 failures.  Got:  " + failed);
+	System.out.println();
+
+	//
+	// Test all versions without message
+	//
+	failed = Testy.run(
+	    () -> tests.testPass1(),
+	    () -> assertTrue(true),
+	    () -> assertFalse(false),
+	    () -> assertEquals("one", new String("one")),
+	    () -> assertNotEquals("one", new String("two")),
+	    () -> assertSame(same, same),
+	    () -> assertNotSame("one", new String("one")),
+	    () -> assertNull(null),
+	    () -> assertNotNull("not null"),
+	    () -> assertEquals(true, true),
+	    () -> assertNotEquals(true, false),
+	    () -> assertEquals(new boolean[] { true, true },
+	                       new boolean[] { true, true }),
+	    () -> assertNotEquals(new boolean[] { true, true },
+	                          new boolean[] { true, false }),
+
+	    () -> assertEquals((byte) 1, (byte) 1),
+	    () -> assertNotEquals((byte) 1, (byte) 0),
+	    () -> assertEquals(new byte[] { (byte) 1, (byte) 1 },
+	                       new byte[] { (byte) 1, (byte) 1 }),
+	    () -> assertNotEquals(new byte[] { (byte) 1, (byte) 1 },
+	                          new byte[] { (byte) 1, (byte) 0 }),
+
+	    () -> assertEquals('a', 'a'),
+	    () -> assertNotEquals('a', 'b'),
+	    () -> assertEquals(new char[] { 'a', 'a' },
+	                       new char[] { 'a', 'a' }),
+	    () -> assertNotEquals(new char[] { 'a', 'a' },
+	                          new char[] { 'a', 'b' }),
+
+	    () -> assertEquals(1, 1),
+	    () -> assertNotEquals(1, 0),
+	    () -> assertEquals(new int[] { 1, 1 },
+	                       new int[] { 1, 1 }),
+	    () -> assertNotEquals(new int[] { 1, 1 },
+	                          new int[] { 1, 0 }),
+
+	    () -> assertEquals(1L, 1L),
+	    () -> assertNotEquals(1L, 0L),
+	    () -> assertEquals(new long[] { 1L, 1L },
+	                       new long[] { 1L, 1L }),
+	    () -> assertNotEquals(new long[] { 1L, 1L },
+	                          new long[] { 1L, 0L }),
+
+	    () -> assertEquals(1.3, 1.301, 0.01),
+	    () -> assertNotEquals(1.3, 1.4, 0.01),
+	    () -> assertEquals(new double[] { 1.3, 1.3 },
+	                       new double[] { 1.3, 1.3 }, 0.01),
+	    () -> assertNotEquals(new double[] { 1.3, 1.3 },
+	                          new double[] { 1.3, 1.5 }, 0.01),
+	    () -> assertEquals(new double[][] { { 1.3, 1.3 } },
+	                       new double[][] { { 1.3, 1.3 } }, 0.01),
+	    () -> assertNotEquals(new double[][] { { 1.3, 1.3 } },
+	                          new double[][] { { 1.3, 1.5 } }, 0.01),
+	    () -> assertEquals(new double[][][] { { { 1.3, 1.3 } } },
+	                       new double[][][] { { { 1.3, 1.3 } } }, 0.01),
+	    () -> assertNotEquals(new double[][][] { { { 1.3, 1.3 } } },
+	                          new double[][][] { { { 1.3, 1.5 } } }, 0.01),
+	    () -> assertEquals(new double[][][][] {{{{1.3, 1.3}}}},
+	                       new double[][][][] {{{{1.3, 1.3}}}}, 0.01),
+	    () -> assertNotEquals(new double[][][][] {{{{1.3, 1.3}}}},
+	                          new double[][][][] {{{{1.3, 1.5}}}}, 0.01),
+
+	    () -> assertEquals(1.3f, 1.301f, 0.01f),
+	    () -> assertNotEquals(1.3f, 1.4, 0.01f),
+	    () -> assertEquals(new float[] { 1.3f, 1.3f },
+	                       new float[] { 1.3f, 1.3f }, 0.01f),
+	    () -> assertNotEquals(new float[] { 1.3f, 1.3f },
+	                          new float[] { 1.3f, 1.5f }, 0.01f),
+	    () -> assertEquals(new float[][] { { 1.3f, 1.3f } },
+	                       new float[][] { { 1.3f, 1.3f } }, 0.01f),
+	    () -> assertNotEquals(new float[][] { { 1.3f, 1.3f } },
+	                          new float[][] { { 1.3f, 1.5f } }, 0.01f),
+	    () -> assertEquals(new float[][][] { { { 1.3f, 1.3f } } },
+	                       new float[][][] { { { 1.3f, 1.3f } } }, 0.01f),
+	    () -> assertNotEquals(new float[][][] { { { 1.3f, 1.3f } } },
+	                          new float[][][] { { { 1.3f, 1.5f } } }, 0.01f),
+	    () -> assertEquals(new float[][][][] {{{{1.3f, 1.3f}}}},
+	                       new float[][][][] {{{{1.3f, 1.3f}}}}, 0.01f),
+	    () -> assertNotEquals(new float[][][][] {{{{1.3f, 1.3f}}}},
 	                          new float[][][][] {{{{1.3f, 1.5f}}}}, 0.01f)
 	);
-
-	System.out.println();
-	System.out.println("Expected 49 failures.  Got:  " + failed);
+	System.out.println("Expected 0 failures.  Got:  " + failed);
 	System.out.println();
 
+	//
+	// Test passing
+	//
 	failed = Testy.run(
 	    () -> tests.testPass1(),
 	    () -> assertTrue("assertTrue", true),
@@ -258,7 +354,6 @@ public class Main {
 	                          new float[][][][] {{{{1.3f, 1.3f}}}},
 	                          new float[][][][] {{{{1.3f, 1.5f}}}}, 0.01f)
 	);
-	System.out.println();
 	System.out.println("Expected 0 failures.  Got:  " + failed);
 	System.out.println();
     }
