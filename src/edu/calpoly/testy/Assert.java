@@ -49,8 +49,8 @@ import java.util.Arrays;
  * This class has a large number of methods, but for the most
  * part, you can just pay attention to the names given above.  Each
  * method has several variants, in order to produce nicer error
- * messages, and sometimes for efficiency.  In addition, for floating
- * point values, you are encouraged to pass an error tolerance.
+ * messages, and sometimes for efficiency.  In addition, for floats 
+ * and doubles, a final argument giving an error tolerance is needed.
  * <code>assertEquals()</code> and <code>assertNotEquals</code> work with
  * just about any input data types, including multi-dimensional primitive
  * arrays.
