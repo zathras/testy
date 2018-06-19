@@ -22,6 +22,8 @@
 
 package edu.calpoly.testy;
 
+import java.util.Collection;
+
 /**
  * The main entry point for Testy.  To run a series of tests,
  * you pass an array of Test instances.  Lambda expressions
@@ -39,7 +41,7 @@ package edu.calpoly.testy;
  * </pre>
  *
  */
-public final class Testy() {
+public final class Testy {
     private Testy() {
     }
 
@@ -49,7 +51,7 @@ public final class Testy() {
      *
      * @return the number of failed tests.
      */
-    public int run (TestRunnable... tests) {
+    public static int run (TestRunnable... tests) {
 	int failed = 0;
 	int passed = 0;
 	for (int i = 0; i < tests.length; i++) {
@@ -57,13 +59,28 @@ public final class Testy() {
 		tests[i].run();
 		passed++;
 	    } catch (Throwable t) {
-		System.out.println("Test failed:  " + t);
+		System.err.println("Test failed:");
+		t.printStackTrace();
+		System.err.println();
 		failed++;
 	    }
 	}
 	System.out.println("" + tests.length + " total tests:");
 	System.out.println("    " + failed + " failed.");
 	System.out.println("    " + passed + " passed.");
+	return failed;
+    }
+
+    /**
+     * Run the given tests, and report which ones fail.
+     * This alternate entry point is given for those who prefer
+     * lists.
+     * A test fails by throwing an exception.
+     *
+     * @return the number of failed tests.
+     */
+    public static int run (Collection<TestRunnable> tests) {
+	return run(tests.toArray(new TestRunnable[tests.size()]));
     }
 }
 

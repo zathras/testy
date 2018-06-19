@@ -113,7 +113,7 @@ public class Assert {
         }
 	message = "" + message + " : "
 		  + "\nexpected:  " + toString(expected)
-		  + "\nactual:  " + toString(actual);
+		  + "\nactual:    " + toString(actual);
 	throw new TestFailed(message);
     }
 
@@ -132,12 +132,12 @@ public class Assert {
      * @throws TestFailed if they aren't equal
      */
     public static void assertNotEquals(String message, Object unexpected, Object actual) {
-        if (!Objects.deepEquals(expected, actual)) {
+        if (!Objects.deepEquals(unexpected, actual)) {
             return;
         }
 	message = "" + message + " : "
 		  + "\nunexpected:  " + toString(unexpected)
-		  + "\nactual:  " + toString(actual);
+		  + "\nactual:      " + toString(actual);
 	throw new TestFailed(message);
     }
 
@@ -155,7 +155,7 @@ public class Assert {
 	if (expected != actual) {
 	    message = "" + message + " : "
 		      + "\nexpected:  " + toString(expected)
-		      + "\nactual:  " + toString(actual);
+		      + "\nactual:    " + toString(actual);
 	    throw new TestFailed(message);
 	}
     }
@@ -170,10 +170,10 @@ public class Assert {
     public static void assertNotSame(String message, Object unexpected, 
     				     Object actual)
     {
-	if (expected == actual) {
+	if (unexpected == actual) {
 	    message = "" + message + " : "
-		      + "\nunexpected:  " + toString(expected)
-		      + "\nactual:  " + toString(actual);
+		      + "\nunexpected:  " + toString(unexpected)
+		      + "\nactual:      " + toString(actual);
 	    throw new TestFailed(message);
 	}
     }
@@ -243,7 +243,7 @@ public class Assert {
     public static void 
     assertNotEquals(String message, boolean unexpected, boolean actual) {
 	if (unexpected == actual) {
-	    message = "" + message + " : expected different, both were " + expected;
+	    message = "" + message + " : expected different, both were " + actual;
 	    throw new TestFailed(message);
 	}
     }
@@ -279,7 +279,7 @@ public class Assert {
     public static void 
     assertNotEquals(String message, byte unexpected, byte actual) {
 	if (unexpected == actual) {
-	    message = "" + message + " : expected different, both were " + expected;
+	    message = "" + message + " : expected different, both were " + actual;
 	    throw new TestFailed(message);
 	}
     }
@@ -315,7 +315,7 @@ public class Assert {
     public static void 
     assertNotEquals(String message, char unexpected, char actual) {
 	if (unexpected == actual) {
-	    message = "" + message + " : expected different, both were " + expected;
+	    message = "" + message + " : expected different, both were " + actual;
 	    throw new TestFailed(message);
 	}
     }
@@ -352,7 +352,7 @@ public class Assert {
     public static void 
     assertNotEquals(String message, int unexpected, int actual) {
 	if (unexpected == actual) {
-	    message = "" + message + " : expected different, both were " + expected;
+	    message = "" + message + " : expected different, both were " + actual;
 	    throw new TestFailed(message);
 	}
     }
@@ -389,7 +389,7 @@ public class Assert {
     public static void 
     assertNotEquals(String message, long unexpected, long actual) {
 	if (unexpected == actual) {
-	    message = "" + message + " : expected different, both were " + expected;
+	    message = "" + message + " : expected different, both were " + actual;
 	    throw new TestFailed(message);
 	}
     }
@@ -425,191 +425,19 @@ public class Assert {
     public static void 
     assertNotEquals(String message, short unexpected, short actual) {
 	if (unexpected == actual) {
-	    message = "" + message + " : expected different, both were " + expected;
+	    message = "" + message + " : expected different, both were " + actual;
 	    throw new TestFailed(message);
 	}
     }
 
-    /**
-     * Determine if two float values are equal within a small tolerance.
-     * They are equal if they are the same as determined by
-     * <code>java.lang.Float.compare()</code> or if the absolute value
-     * of their difference is less than or equal to epsilon.
-     *
-     * @param  message describing the test
-     * @param  expected The expected value
-     * @param  actual   The actual value
-     * @param  epsilon  The tolerance
-     *
-     * @throws TestFailed  on test failure
-     */
-    public static void 
-    assertEquals(String message, float expected, float actual, float epsilon) 
-    {
-	if (Float.compare(expected, actual) == 0) {
-	    return;
+
+    private static boolean doublesSame(double a, double b, double epsilon) {
+	if (Double.compare(a, b) == 0) {
+	    return true;
+	} else {
+	    return Math.abs(a - b) <= epsilon;
 	}
-	if (Math.abs(expected - actual) <= epsilon) {
-	    return;
-	}
-	message = "" + message + " : expected " + expected + ", got " + actual;
-	throw new TestFailed(message);
     }
-
-
-    /**
-     * Determine if two float values are not equal within a small tolerance.
-     * They are equal if they are the same as determined by
-     * <code>java.lang.Float.compare()</code> or if the absolute value
-     * of their difference is less than or equal to epsilon.
-     *
-     * @param  message describing the test
-     * @param  unexpected The expected value
-     * @param  actual   The actual value
-     * @param  epsilon  The tolerance
-     *
-     * @throws TestFailed  on test failure
-     */
-    public static void 
-    assertNotEquals(String message, float unexpected, float actual, float epsilon) 
-    {
-	if (Float.compare(expected, actual) != 0) {
-	    if (Math.abs(expected - actual) > epsilon) {
-		return;
-	    }
-	}
-	message = "" + message + " : expected " + expected + ", got " + actual;
-	throw new TestFailed(message);
-    }
-
-    /**
-     * Determine if two float arrays are equal, with the values checked within a
-     * small tolerance
-     *
-     * @param  message describing the test
-     * @param  expected The expected value
-     * @param  actual   The actual value
-     * @param  epsilon  The tolerance
-     *
-     * @throws TestFailed  on test failure
-     */
-    public static void 
-    assertEquals(String message, float[] expected, float[] actual, float epsilon) 
-    {
-	if (expected == actual) {
-	    return;
-	}
-	if (expected != null && actual != null && expected.length == actual.length) {
-	    try {
-		for (int i = 0; i < expected.length; i++) {
-		    assertEquals(message, expected[i], actual[i]);
-		}
-		return;
-	    } catch (TestFailed failed) {
-		// Generate a new exception below
-	    }
-	}
-	message = "" + message + " : expected " + Arrays.toString(expected) 
-	          + ", got " + Arrays.toString(actual);
-	throw new TestFailed(message);
-    }
-
-    /**
-     * Determine if two float arrays are equal, with the values checked within a
-     * small tolerance
-     *
-     * @param  message describing the test
-     * @param  expected The expected value
-     * @param  actual   The actual value
-     * @param  epsilon  The tolerance
-     *
-     * @throws TestFailed  on test failure
-     */
-    public static void 
-    assertEquals(String message, float[][] expected, float[][] actual, float epsilon) 
-    {
-	if (expected == actual) {
-	    return;
-	}
-	if (expected != null && actual != null && expected.length == actual.length) {
-	    try {
-		for (int i = 0; i < expected.length; i++) {
-		    assertEquals(message, expected[i], actual[i]);
-		}
-		return;
-	    } catch (TestFailed failed) {
-		// Generate a new exception below
-	    }
-	}
-	message = "" + message + " : expected " + Arrays.toString(expected) 
-	          + ", got " + Arrays.toString(actual);
-	throw new TestFailed(message);
-    }
-
-    /**
-     * Determine if two float arrays are equal, with the values checked within a
-     * small tolerance
-     *
-     * @param  message describing the test
-     * @param  expected The expected value
-     * @param  actual   The actual value
-     * @param  epsilon  The tolerance
-     *
-     * @throws TestFailed  on test failure
-     */
-    public static void 
-    assertEquals(String message, float[][][] expected, float[][][] actual, float epsilon) 
-    {
-	if (expected == actual) {
-	    return;
-	}
-	if (expected != null && actual != null && expected.length == actual.length) {
-	    try {
-		for (int i = 0; i < expected.length; i++) {
-		    assertEquals(message, expected[i], actual[i]);
-		}
-		return;
-	    } catch (TestFailed failed) {
-		// Generate a new exception below
-	    }
-	}
-	message = "" + message + " : expected " + Arrays.toString(expected) 
-	          + ", got " + Arrays.toString(actual);
-	throw new TestFailed(message);
-    }
-
-    /**
-     * Determine if two float arrays are equal, with the values checked within a
-     * small tolerance
-     *
-     * @param  message describing the test
-     * @param  expected The expected value
-     * @param  actual   The actual value
-     * @param  epsilon  The tolerance
-     *
-     * @throws TestFailed  on test failure
-     */
-    public static void 
-    assertEquals(String message, float[][][][] expected, float[][][][] actual, float epsilon) 
-    {
-	if (expected == actual) {
-	    return;
-	}
-	if (expected != null && actual != null && expected.length == actual.length) {
-	    try {
-		for (int i = 0; i < expected.length; i++) {
-		    assertEquals(message, expected[i], actual[i]);
-		}
-		return;
-	    } catch (TestFailed failed) {
-		// Generate a new exception below
-	    }
-	}
-	message = "" + message + " : expected " + Arrays.toString(expected) 
-	          + ", got " + Arrays.toString(actual);
-	throw new TestFailed(message);
-    }
-
 
     /**
      * Determine if two double values are equal within a small tolerance.
@@ -627,13 +455,12 @@ public class Assert {
     public static void 
     assertEquals(String message, double expected, double actual, double epsilon) 
     {
-	if (Double.compare(expected, actual) == 0) {
+	if (doublesSame(expected, actual, epsilon)) {
 	    return;
 	}
-	if (Math.abs(expected - actual) <= epsilon) {
-	    return;
-	}
-	message = "" + message + " : expected " + expected + ", got " + actual;
+	message = "" + message
+		  + " : expected:  " + expected 
+		  + "  actual:  " + actual;
 	throw new TestFailed(message);
     }
 
@@ -654,13 +481,30 @@ public class Assert {
     public static void 
     assertNotEquals(String message, double unexpected, double actual, double epsilon) 
     {
-	if (Double.compare(expected, actual) != 0) {
-	    if (Math.abs(expected - actual) > epsilon) {
-		return;
-	    }
+	if (!doublesSame(unexpected, actual, epsilon)) {
+	    return;
 	}
-	message = "" + message + " : expected " + expected + ", got " + actual;
+	message = "" + message 
+		  + ": unexpected:  " + unexpected 
+		  + " actual:  " + actual;
 	throw new TestFailed(message);
+    }
+
+    private static boolean doublesSame(double[] a, double[] b, double epsilon) {
+	if (a == b) {
+	    return true;
+	} else if (a == null || b == null) {
+	    return false;
+	} else if (a.length != b.length) {
+	    return false;
+	} else {
+	    for (int i = 0; i < a.length; i++) {
+		if (!doublesSame(a[i], b[i], epsilon)) {
+		    return false;
+		}
+	    }
+	    return true;
+	}
     }
 
     /**
@@ -677,22 +521,54 @@ public class Assert {
     public static void 
     assertEquals(String message, double[] expected, double[] actual, double epsilon) 
     {
-	if (expected == actual) {
+	if (doublesSame(expected, actual, epsilon)) {
 	    return;
 	}
-	if (expected != null && actual != null && expected.length == actual.length) {
-	    try {
-		for (int i = 0; i < expected.length; i++) {
-		    assertEquals(message, expected[i], actual[i]);
-		}
-		return;
-	    } catch (TestFailed failed) {
-		// Generate a new exception below
-	    }
-	}
-	message = "" + message + " : expected " + Arrays.toString(expected) 
-	          + ", got " + Arrays.toString(actual);
+	message = "" + message 
+		  + "\nexpected:  " + toString(expected) 
+		  + "\nactual:    " + toString(actual);
 	throw new TestFailed(message);
+    }
+
+    /**
+     * Determine if two double arrays are not equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertNotEquals(String message, double[] unexpected, double[] actual, double epsilon) 
+    {
+	if (!doublesSame(unexpected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nunexpected:  " + toString(unexpected) 
+		  + "\nactual:      " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+
+    private static boolean doublesSame(double[][] a, double[][] b, double epsilon) {
+	if (a == b) {
+	    return true;
+	} else if (a == null || b == null) {
+	    return false;
+	} else if (a.length != b.length) {
+	    return false;
+	} else {
+	    for (int i = 0; i < a.length; i++) {
+		if (!doublesSame(a[i], b[i], epsilon)) {
+		    return false;
+		}
+	    }
+	    return true;
+	}
     }
 
     /**
@@ -709,22 +585,53 @@ public class Assert {
     public static void 
     assertEquals(String message, double[][] expected, double[][] actual, double epsilon) 
     {
-	if (expected == actual) {
+	if (doublesSame(expected, actual, epsilon)) {
 	    return;
 	}
-	if (expected != null && actual != null && expected.length == actual.length) {
-	    try {
-		for (int i = 0; i < expected.length; i++) {
-		    assertEquals(message, expected[i], actual[i]);
-		}
-		return;
-	    } catch (TestFailed failed) {
-		// Generate a new exception below
-	    }
-	}
-	message = "" + message + " : expected " + Arrays.toString(expected) 
-	          + ", got " + Arrays.toString(actual);
+	message = "" + message 
+		  + "\nexpected:  " + toString(expected) 
+		  + "\nactual:    " + toString(actual);
 	throw new TestFailed(message);
+    }
+
+    /**
+     * Determine if two double arrays are not equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertNotEquals(String message, double[][] unexpected, double[][] actual, double epsilon) 
+    {
+	if (!doublesSame(unexpected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nunexpected:  " + toString(unexpected) 
+		  + "\nactual:      " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+    private static boolean doublesSame(double[][][] a, double[][][] b, double epsilon) {
+	if (a == b) {
+	    return true;
+	} else if (a == null || b == null) {
+	    return false;
+	} else if (a.length != b.length) {
+	    return false;
+	} else {
+	    for (int i = 0; i < a.length; i++) {
+		if (!doublesSame(a[i], b[i], epsilon)) {
+		    return false;
+		}
+	    }
+	    return true;
+	}
     }
 
     /**
@@ -741,22 +648,54 @@ public class Assert {
     public static void 
     assertEquals(String message, double[][][] expected, double[][][] actual, double epsilon) 
     {
-	if (expected == actual) {
+	if (doublesSame(expected, actual, epsilon)) {
 	    return;
 	}
-	if (expected != null && actual != null && expected.length == actual.length) {
-	    try {
-		for (int i = 0; i < expected.length; i++) {
-		    assertEquals(message, expected[i], actual[i]);
-		}
-		return;
-	    } catch (TestFailed failed) {
-		// Generate a new exception below
-	    }
-	}
-	message = "" + message + " : expected " + Arrays.toString(expected) 
-	          + ", got " + Arrays.toString(actual);
+	message = "" + message 
+		  + "\nexpected:  " + toString(expected) 
+		  + "\nactual:    " + toString(actual);
 	throw new TestFailed(message);
+    }
+
+    /**
+     * Determine if two double arrays are not equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertNotEquals(String message, double[][][] unexpected, double[][][] actual, 
+    		    double epsilon) 
+    {
+	if (!doublesSame(unexpected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nunexpected:  " + toString(unexpected) 
+		  + "\nactual:      " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+    private static boolean doublesSame(double[][][][] a, double[][][][] b, double epsilon) {
+	if (a == b) {
+	    return true;
+	} else if (a == null || b == null) {
+	    return false;
+	} else if (a.length != b.length) {
+	    return false;
+	} else {
+	    for (int i = 0; i < a.length; i++) {
+		if (!doublesSame(a[i], b[i], epsilon)) {
+		    return false;
+		}
+	    }
+	    return true;
+	}
     }
 
     /**
@@ -772,30 +711,379 @@ public class Assert {
      */
     public static void 
     assertEquals(String message, double[][][][] expected, double[][][][] actual, 
-    	         double epsilon) 
+    		 double epsilon) 
     {
-	if (expected == actual) {
+	if (doublesSame(expected, actual, epsilon)) {
 	    return;
 	}
-	if (expected != null && actual != null && expected.length == actual.length) {
-	    try {
-		for (int i = 0; i < expected.length; i++) {
-		    assertEquals(message, expected[i], actual[i]);
-		}
-		return;
-	    } catch (TestFailed failed) {
-		// Generate a new exception below
-	    }
+	message = "" + message 
+		  + "\nexpected:  " + toString(expected) 
+		  + "\nactual:    " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+    /**
+     * Determine if two double arrays are not equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertNotEquals(String message, double[][][][] unexpected, double[][][][] actual, 
+    		    double epsilon) 
+    {
+	if (!doublesSame(unexpected, actual, epsilon)) {
+	    return;
 	}
-	message = "" + message + " : expected " + Arrays.toString(expected) 
-	          + ", got " + Arrays.toString(actual);
+	message = "" + message 
+		  + "\nunexpected:  " + toString(unexpected) 
+		  + "\nactual:      " + toString(actual);
 	throw new TestFailed(message);
     }
 
 
-    private String toString(Object o) {
+    private static boolean floatsSame(float a, float b, float epsilon) {
+	if (Float.compare(a, b) == 0) {
+	    return true;
+	} else {
+	    return Math.abs(a - b) <= epsilon;
+	}
+    }
+
+    /**
+     * Determine if two float values are equal within a small tolerance.
+     * They are equal if they are the same as determined by
+     * <code>java.lang.Float.compare()</code> or if the absolute value
+     * of their difference is less than or equal to epsilon.
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertEquals(String message, float expected, float actual, float epsilon) 
+    {
+	if (floatsSame(expected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message
+		  + " : expected:  " + expected 
+		  + "  actual:  " + actual;
+	throw new TestFailed(message);
+    }
+
+
+    /**
+     * Determine if two float values are not equal within a small tolerance.
+     * They are equal if they are the same as determined by
+     * <code>java.lang.Float.compare()</code> or if the absolute value
+     * of their difference is less than or equal to epsilon.
+     *
+     * @param  message describing the test
+     * @param  unexpected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertNotEquals(String message, float unexpected, float actual, float epsilon) 
+    {
+	if (!floatsSame(unexpected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + ": unexpected:  " + unexpected 
+		  + " actual:  " + actual;
+	throw new TestFailed(message);
+    }
+
+    private static boolean floatsSame(float[] a, float[] b, float epsilon) {
+	if (a == b) {
+	    return true;
+	} else if (a == null || b == null) {
+	    return false;
+	} else if (a.length != b.length) {
+	    return false;
+	} else {
+	    for (int i = 0; i < a.length; i++) {
+		if (!floatsSame(a[i], b[i], epsilon)) {
+		    return false;
+		}
+	    }
+	    return true;
+	}
+    }
+
+    /**
+     * Determine if two float arrays are equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertEquals(String message, float[] expected, float[] actual, float epsilon) 
+    {
+	if (floatsSame(expected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nexpected:  " + toString(expected) 
+		  + "\nactual:    " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+    /**
+     * Determine if two float arrays are not equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertNotEquals(String message, float[] unexpected, float[] actual, float epsilon) 
+    {
+	if (!floatsSame(unexpected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nunexpected:  " + toString(unexpected) 
+		  + "\nactual:      " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+
+    private static boolean floatsSame(float[][] a, float[][] b, float epsilon) {
+	if (a == b) {
+	    return true;
+	} else if (a == null || b == null) {
+	    return false;
+	} else if (a.length != b.length) {
+	    return false;
+	} else {
+	    for (int i = 0; i < a.length; i++) {
+		if (!floatsSame(a[i], b[i], epsilon)) {
+		    return false;
+		}
+	    }
+	    return true;
+	}
+    }
+
+    /**
+     * Determine if two float arrays are equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertEquals(String message, float[][] expected, float[][] actual, float epsilon) 
+    {
+	if (floatsSame(expected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nexpected:  " + toString(expected) 
+		  + "\nactual:    " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+    /**
+     * Determine if two float arrays are not equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertNotEquals(String message, float[][] unexpected, float[][] actual, float epsilon) 
+    {
+	if (!floatsSame(unexpected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nunexpected:  " + toString(unexpected) 
+		  + "\nactual:      " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+    private static boolean floatsSame(float[][][] a, float[][][] b, float epsilon) {
+	if (a == b) {
+	    return true;
+	} else if (a == null || b == null) {
+	    return false;
+	} else if (a.length != b.length) {
+	    return false;
+	} else {
+	    for (int i = 0; i < a.length; i++) {
+		if (!floatsSame(a[i], b[i], epsilon)) {
+		    return false;
+		}
+	    }
+	    return true;
+	}
+    }
+
+    /**
+     * Determine if two float arrays are equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertEquals(String message, float[][][] expected, float[][][] actual, float epsilon) 
+    {
+	if (floatsSame(expected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nexpected:  " + toString(expected) 
+		  + "\nactual:    " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+    /**
+     * Determine if two float arrays are not equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertNotEquals(String message, float[][][] unexpected, float[][][] actual, 
+    		    float epsilon) 
+    {
+	if (!floatsSame(unexpected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nunexpected:  " + toString(unexpected) 
+		  + "\nactual:      " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+    private static boolean floatsSame(float[][][][] a, float[][][][] b, float epsilon) {
+	if (a == b) {
+	    return true;
+	} else if (a == null || b == null) {
+	    return false;
+	} else if (a.length != b.length) {
+	    return false;
+	} else {
+	    for (int i = 0; i < a.length; i++) {
+		if (!floatsSame(a[i], b[i], epsilon)) {
+		    return false;
+		}
+	    }
+	    return true;
+	}
+    }
+
+    /**
+     * Determine if two float arrays are equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertEquals(String message, float[][][][] expected, float[][][][] actual, 
+    		 float epsilon) 
+    {
+	if (floatsSame(expected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nexpected:  " + toString(expected) 
+		  + "\nactual:    " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+    /**
+     * Determine if two float arrays are not equal, with the values checked within a
+     * small tolerance
+     *
+     * @param  message describing the test
+     * @param  expected The expected value
+     * @param  actual   The actual value
+     * @param  epsilon  The tolerance
+     *
+     * @throws TestFailed  on test failure
+     */
+    public static void 
+    assertNotEquals(String message, float[][][][] unexpected, float[][][][] actual, 
+    		    float epsilon) 
+    {
+	if (!floatsSame(unexpected, actual, epsilon)) {
+	    return;
+	}
+	message = "" + message 
+		  + "\nunexpected:  " + toString(unexpected) 
+		  + "\nactual:      " + toString(actual);
+	throw new TestFailed(message);
+    }
+
+
+
+
+    private static String toString(Object o) {
 	if (o instanceof Object[]) {
 	    return Arrays.deepToString((Object[]) o);
+	} else if (o instanceof boolean[]) {
+	    return Arrays.toString((boolean[]) o);
+	} else if (o instanceof byte[]) {
+	    return Arrays.toString((byte[]) o);
+	} else if (o instanceof char[]) {
+	    return Arrays.toString((char[]) o);
+	} else if (o instanceof double[]) {
+	    return Arrays.toString((double[]) o);
+	} else if (o instanceof float[]) {
+	    return Arrays.toString((float[]) o);
+	} else if (o instanceof int[]) {
+	    return Arrays.toString((int[]) o);
+	} else if (o instanceof long[]) {
+	    return Arrays.toString((long[]) o);
+	} else if (o instanceof short[]) {
+	    return Arrays.toString((short[]) o);
 	} else {
 	    return Objects.toString(o);
 	}
