@@ -9,7 +9,7 @@ valuable, and learning about them is an important part of a computer
 science curriculum.
 
 A popular tool for unit testing is JUnit, from https://junit.org/.  It
-works, well, but it's a large and complex tool.  It also makes extensive
+works well, but it's a large and complex tool.  It also makes extensive
 use of reflection to identify and invoke tests.  It's an understandable
 use of reflection, but now that Java has lambdas, normal Java techniques
 can easily be used to build a list of tests to be executed, instead of
