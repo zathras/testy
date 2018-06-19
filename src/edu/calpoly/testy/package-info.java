@@ -20,23 +20,33 @@
  * SOFTWARE.
  */
 
-package edu.calpoly.testy;
 
 /**
- * A test that is run by the Testy framework.  It is recommended
- * to use a lambda expression to pass a Test to Testy.  The test
- * may throw checked or unchecked exceptions.
+ * Testy - a simple unit test framework
+ * <br>
+ * <br>
+ * <center>
+ * <img src="doc-files/testy.png" alt="*">
+ * </center>
+ * <p>
+ * This package provides a framework for unit testing, inspired by
+ * <a href="https://junit.org/">JUnit</a>.  This package steers clear
+ * of language idioms that are unsuitable for an introductory OO class,
+ * like the Java reflaction API.  It just provides a way of gathering
+ * unit tests together, and a set of convenience functions for comparing
+ * data values .
+ * <p>
+ * The main entry point for this package is the class 
+ * <a href="Testy.html"><code>Testy</code></a>.  An application simply
+ * calls {@link Testy#run(TestRunnable...) Testy.run()} with some 
+ * number of unit tests.
+ * <p>
+ * See also 
+ * <a href="https://testy.jovial.com/" target="_top">https://testy.jovial.com/</a>,
+ * and <a href="doc-files/LICENSE.txt">the license</a>.
  *
- * @see Testy
+ *
+ *      @author         Bill Foote, http://jovial.com
+ *
  */
-@FunctionalInterface
-public interface TestRunnable {
-
-    /**
-     * Run the test
-     *
-     * @throws  Throwable  to indicate a test failure
-     */
-    public void run() throws Throwable;
-
-}
+package edu.calpoly.testy;

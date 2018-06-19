@@ -36,6 +36,8 @@ public class TestFailed extends RuntimeException {
     /**
      * Constructs a new test failed exception with the specified 
      * detail message.
+     *
+     * @param message	The detail message
      */
     public TestFailed(String message) {
 	super(message);
@@ -44,6 +46,9 @@ public class TestFailed extends RuntimeException {
     /**
      * Constructs a new test failed exception with the specified 
      * detail message and cause.
+     *
+     * @param message	The detail message
+     * @param cause	The cause of the exception
      */
     public TestFailed(String message, Throwable cause) {
     }

@@ -19,5 +19,5 @@ access.
 In an introductory course on OO programming, for example, it's better to
 limit the number of new concepts students are exposed to down to a
 manageable set.  Something much simpler than JUnit is called called for.
-
+Testy is intended to fulfill that need.
 

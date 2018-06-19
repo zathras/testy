@@ -33,10 +33,10 @@ import java.util.Collection;
  * <pre>
  *     final MyTest testObj = new MyTest();
  *     Testy.run(
- *          () ->  testObj.test1(),
- *          () ->  testObj.test2(),
- *          () ->  testObj.test3(),
- *          () ->  testObj.test4()
+ *          () -&gt;  testObj.test1(),
+ *          () -&gt;  testObj.test2(),
+ *          () -&gt;  testObj.test3(),
+ *          () -&gt;  testObj.test4()
  *     );
  * </pre>
  * If you prefer having your tests as static members, that's fine too.
@@ -44,14 +44,14 @@ import java.util.Collection;
  * <pre>
  *     import static edu.calpoly.testy.Assert.assertTrue;
  *
- *     <...>
+ *     &lt;...&gt;
  *
  *     Testy.run(
- *          () ->  MyTest.test1(),
- *          () ->  MyTest.test2(),
- *          () ->  MyTest.test3(),
- *          () ->  MyTest.test4(),
- *          () ->  assertTrue("this will fail", false)
+ *          () -&gt;  MyTest.test1(),
+ *          () -&gt;  MyTest.test2(),
+ *          () -&gt;  MyTest.test3(),
+ *          () -&gt;  MyTest.test4(),
+ *          () -&gt;  assertTrue("this will fail", false)
  *     );
  * </pre>
  *
@@ -62,11 +62,14 @@ public final class Testy {
 
     /**
      * Run the given tests, and report which ones fail.
-     * A test fails by throwing an exception.  TestFailed is a good
+     * A test fails by throwing an exception.  {@link TestFailed} is a good
      * choice, but any exception will count as a failure.
+     *
+     * @param tests	The tests to run
      *
      * @return the number of failed tests.
      * @see TestFailed
+     * @see Assert
      */
     public static int run (TestRunnable... tests) {
 	int failed = 0;
@@ -93,11 +96,14 @@ public final class Testy {
      * This alternate entry point is given in situations where lists
      * are preferable.  For example, it might be convenient to collect
      * lists of tests from different sources into one master list.
-     * A test fails by throwing an exception.  TestFailed is a good
+     * A test fails by throwing an exception.  {@link TestFailed} is a good
      * choice, but any exception will count as a failure.
+     *
+     * @param  tests	The tests to run
      *
      * @return the number of failed tests.
      * @see TestFailed
+     * @see Assert
      */
     public static int run (Collection<TestRunnable> tests) {
 	return run(tests.toArray(new TestRunnable[tests.size()]));

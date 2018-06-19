@@ -27,10 +27,12 @@ import java.util.Arrays;
 
 /**
  * Various static methods to provide different test assertions.
- * This is modeled on org.junit.Assert; 
- * see https://junit.org/junit4/javadoc/latest/org/junit/Assert.html .
- * Use these assertions within a test.  If the assertion fails, a
- * runtime exception is thrown; that's how a test failure is indicated.
+ * This is modeled on 
+ * <a href="https://junit.org/junit4/javadoc/latest/org/junit/Assert.html" 
+ * target="_top"><code>org.junit.Assert</code></a>.  You 
+ * can use these assertions within 
+ * a test.  If the assertion fails, the
+ * runtime exception {@link TestFailed} is thrown.
  * <p>
  * You might wish to use static imports, viz:
  * <pre>
@@ -44,6 +46,14 @@ import java.util.Arrays;
  *   import static edu.calpoly.testy.Assert.assertNull;
  *   import static edu.calpoly.testy.Assert.assertNotNull;
  * </pre>
+ * This class has a large number of methods, but for the most
+ * part, you can just pay attention to the names given above.  Each
+ * method has several variants, in order to produce nicer error
+ * messages, and sometimes for efficiency.  In addition, for floating
+ * point values, you are encouraged to pass an error tolerance.
+ * <code>assertEquals()</code> and <code>assertNotEquals</code> work with
+ * just about any input data types, including multi-dimensional primitive
+ * arrays.
  */
 
 
@@ -57,7 +67,7 @@ public class Assert {
      *
      * @param  message describing the test
      * @param  condition condition to be checked
-     * @throws TestFailure   if the condition is false
+     * @throws TestFailed   if the condition is false
      */
     public static void assertTrue(String message, boolean condition) {
         if (!condition) {
@@ -70,7 +80,7 @@ public class Assert {
      *
      * @param  message describing the test
      * @param  condition condition to be checked
-     * @throws TestFailure   if the condition isn't false
+     * @throws TestFailed   if the condition isn't false
      */
     public static void assertFalse(String message, boolean condition) {
         if (condition) {
@@ -82,7 +92,7 @@ public class Assert {
      * Fails a test with the given message.
      *
      * @param message describing the failure
-     * @throws TestFailed
+     * @throws TestFailed  always
      */
     public static void fail(String message) {
         if (message == null) {
@@ -163,6 +173,7 @@ public class Assert {
     /**
      * Determine if expected != actual.
      *
+     * @param  message describing the test
      * @param unexpected unexpected value
      * @param actual actual value
      * @throws TestFailed if they are ==
@@ -535,7 +546,7 @@ public class Assert {
      * small tolerance
      *
      * @param  message describing the test
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -599,7 +610,7 @@ public class Assert {
      * small tolerance
      *
      * @param  message describing the test
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -662,7 +673,7 @@ public class Assert {
      * small tolerance
      *
      * @param  message describing the test
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -727,7 +738,7 @@ public class Assert {
      * small tolerance
      *
      * @param  message describing the test
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -851,7 +862,7 @@ public class Assert {
      * small tolerance
      *
      * @param  message describing the test
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -915,7 +926,7 @@ public class Assert {
      * small tolerance
      *
      * @param  message describing the test
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -978,7 +989,7 @@ public class Assert {
      * small tolerance
      *
      * @param  message describing the test
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -1043,7 +1054,7 @@ public class Assert {
      * small tolerance
      *
      * @param  message describing the test
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -1071,7 +1082,7 @@ public class Assert {
      * Asserts that a condition is true.
      *
      * @param  condition condition to be checked
-     * @throws TestFailure   if the condition is false
+     * @throws TestFailed   if the condition is false
      */
     public static void assertTrue(boolean condition) {
 	assertTrue("", condition);
@@ -1081,7 +1092,7 @@ public class Assert {
      * Asserts that a condition is false.
      *
      * @param  condition condition to be checked
-     * @throws TestFailure   if the condition isn't false
+     * @throws TestFailed   if the condition isn't false
      */
     public static void assertFalse(boolean condition) {
 	assertFalse("", condition);
@@ -1090,7 +1101,7 @@ public class Assert {
     /**
      * Fails a test with no message.
      *
-     * @throws TestFailed
+     * @throws TestFailed	always
      */
     public static void fail() {
 	fail("");
@@ -1419,7 +1430,7 @@ public class Assert {
      * Determine if two double arrays are not equal, with the values checked within a
      * small tolerance
      *
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -1452,7 +1463,7 @@ public class Assert {
      * Determine if two double arrays are not equal, with the values checked within a
      * small tolerance
      *
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -1485,7 +1496,7 @@ public class Assert {
      * Determine if two double arrays are not equal, with the values checked within a
      * small tolerance
      *
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -1518,7 +1529,7 @@ public class Assert {
      * Determine if two double arrays are not equal, with the values checked within a
      * small tolerance
      *
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -1588,7 +1599,7 @@ public class Assert {
      * Determine if two float arrays are not equal, with the values checked within a
      * small tolerance
      *
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -1621,7 +1632,7 @@ public class Assert {
      * Determine if two float arrays are not equal, with the values checked within a
      * small tolerance
      *
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -1653,7 +1664,7 @@ public class Assert {
      * Determine if two float arrays are not equal, with the values checked within a
      * small tolerance
      *
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
@@ -1686,7 +1697,7 @@ public class Assert {
      * Determine if two float arrays are not equal, with the values checked within a
      * small tolerance
      *
-     * @param  expected The expected value
+     * @param  unexpected The value that's not expected
      * @param  actual   The actual value
      * @param  epsilon  The tolerance
      *
