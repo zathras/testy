@@ -55,6 +55,20 @@ import java.util.Collection;
  *     );
  * </pre>
  *
+ * <h3>Kotlin Note</h3>
+ * Due to bug
+ * <a target="_new" href="https://youtrack.jetbrains.com/issue/KT-14233">KT-14233</a>,
+ * if you use the varargs version of run() from Kotlin you must use the
+ * Kotlin syntax to explicitly convert a lambda into a functional interface.
+ * See section 5.4.2, &ldquo;SAM constructors: explicit conversion of lambdas
+ * to functional interfaces.&rdquo;  This could would look like this:
+ * <pre>
+ *     Testy.run(
+ *         TestRunnable { test1() },
+ *         TestRunnable { test2() }
+ *     )
+ * </pre>
+ *
  */
 public final class Testy {
     private Testy() {
