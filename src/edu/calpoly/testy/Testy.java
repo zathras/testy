@@ -31,6 +31,7 @@ import java.util.Collection;
  * test1() through test4() defined as instance methods of a class
  * called <code>MyTests</code>.  To run them, do:  
  * <pre>
+ *
  *     final MyTest testObj = new MyTest();
  *     Testy.run(
  *          () -&gt;  testObj.test1(),
@@ -42,6 +43,7 @@ import java.util.Collection;
  * If you prefer having your tests as static members, that's fine too.
  * you can also put tests directly in the lambda if you want, viz:
  * <pre>
+ *
  *     import static edu.calpoly.testy.Assert.assertTrue;
  *
  *     &lt;...&gt;
@@ -61,8 +63,9 @@ import java.util.Collection;
  * if you use the varargs version of run() from Kotlin you must use the
  * Kotlin syntax to explicitly convert a lambda into a functional interface.
  * See section 5.4.2, &ldquo;SAM constructors: explicit conversion of lambdas
- * to functional interfaces.&rdquo;  This could would look like this:
+ * to functional interfaces.&rdquo;  For example, the following works:
  * <pre>
+ *
  *     Testy.run(
  *         TestRunnable { test1() },
  *         TestRunnable { test2() }
