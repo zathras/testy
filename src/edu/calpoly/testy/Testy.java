@@ -105,6 +105,9 @@ public final class Testy {
 	System.out.println("" + tests.length + " total tests:");
 	System.out.println("    " + failed + " failed.");
 	System.out.println("    " + passed + " passed.");
+	if (GradingSupport.ENABLED) {
+	    GradingSupport.fromTestyRun(tests, passed, failed);
+	}
 	return failed;
     }
 
